@@ -7,6 +7,7 @@ import "./index.css";
 import image from "./assets/range_rover.jpg";
 const button = document.querySelector("#submit");
 let tasks = JSON.parse(localStorage.getItem("tasks"))||[];
+let display_div = document.querySelector(".display");
 
 // Creating a task.
 button.addEventListener("click",()=>{
@@ -17,6 +18,7 @@ button.addEventListener("click",()=>{
     }
     tasks.push(obj);
     localStorage.setItem("tasks",JSON.stringify(tasks))
+    display(tasks,display_div);
     window.alert("Task Created")
 })
 
@@ -25,8 +27,6 @@ img.src = image
 document.querySelector(".header").append(img)
 
 // Displaying all tasks
-let display_div = document.querySelector(".display");
-
 function display(tasks,display_div){
     display_div.innerHTML = "";
     tasks.forEach((element,index) => {

@@ -1,0 +1,36 @@
+.redtext{
+    color: teal;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.input>div:nth-child(1){
+    width: 30%;
+    padding: 20px;
+    font-size: 15px;
+}
+
+.input>div:nth-child(1)>div{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.input{
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+}
+.input>div:nth-child(2)>div{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+}
+.header img{
+    width: 15%;
+}
+
+.content>div{
+    display: flex;
+    justify-content: space-around;
+}

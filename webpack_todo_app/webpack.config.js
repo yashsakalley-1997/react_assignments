@@ -1,4 +1,5 @@
 module.exports = {
+    mode:'development',
     module:{
         rules: [
         {
@@ -9,6 +10,11 @@ module.exports = {
             test: /\.(png|jpe?g|gif)$/,
             use:["file-loader"]
         },
+        {
+            test: /\.js$/,
+            use:["babel-loader"]
+        },
+        
     ],
     },
 }

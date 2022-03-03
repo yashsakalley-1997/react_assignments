@@ -12,6 +12,10 @@ body{
     font-size: 15px;
 }
 
+.border_radius{
+    border-radius: 100%;
+}
+
 .input>div:nth-child(1)>div{
     display: flex;
     justify-content: space-between;

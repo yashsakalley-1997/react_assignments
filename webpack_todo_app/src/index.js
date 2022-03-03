@@ -1,7 +1,5 @@
-// import ("./index.css")
-// import React from "react";   
-// import ReactDOM from "react-dom";
-
+import React from "react";
+import ReactDOM from "react-dom";
 
 import "./index.css";
 import image from "./assets/range_rover.jpg";
@@ -22,9 +20,31 @@ button.addEventListener("click",()=>{
     window.alert("Task Created")
 })
 
-let img = document.createElement("img");
-img.src = image
-document.querySelector(".header").append(img)
+// let img = document.createElement("img");
+// img.src = image
+// document.querySelector(".header").append(img)
+
+
+// takes tow arguements what to render and where to render.
+ReactDOM.render(
+    React.createElement("img",{className:"border_radius",src:image}),
+    document.querySelector(".header")
+)
+
+ReactDOM.render(
+    <div className="redtext">
+        <span>Hello all</span>
+        <input type="text" placeholder="hello all"/>
+    </div>,
+    document.querySelector(".header")
+)
+// ReactDOM.render(
+//     React.createElement("h1",{className:"redtext"},[
+//         React.createElement("i",null,"Hello react!")
+//     ]),
+//     document.querySelector("#root")
+// )
+
 
 // Displaying all tasks
 function display(tasks,display_div){
@@ -53,12 +73,3 @@ function display(tasks,display_div){
     });
 }
 display(tasks,display_div);
-
-// takes tow arguements what to render and where to render.
-
-// ReactDOM.render(
-//     React.createElement("h1",{className:"redtext"},[
-//         React.createElement("i",null,"Hello react!")
-//     ]),
-//     document.querySelector("#root")
-// )

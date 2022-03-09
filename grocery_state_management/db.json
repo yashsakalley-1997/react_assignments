@@ -1,35 +1,6 @@
 {
   "groceries": [
     {
-      "title": "Potatoes",
-      "purchased": false,
-      "id": 1
-    },
-    {
-      "title": "onions",
-      "id": 4
-    },
-    {
-      "title": "vegies",
-      "id": 5
-    },
-    {
-      "title": "chocs",
-      "id": 6
-    },
-    {
-      "title": "a",
-      "id": 7
-    },
-    {
-      "title": "b",
-      "id": 8
-    },
-    {
-      "title": "c",
-      "id": 9
-    },
-    {
       "title": "asas",
       "id": 10
     },
@@ -68,6 +39,10 @@
     {
       "title": ":)",
       "id": 19
+    },
+    {
+      "title": "chicken",
+      "id": 20
     }
   ]
 }

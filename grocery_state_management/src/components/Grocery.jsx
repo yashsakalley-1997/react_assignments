@@ -9,13 +9,14 @@ export const Grocery = () =>
 {   
     const [groceries,setGroceries] = useState([]);
     const [page,setPage] = useState(1);
+    
     useEffect(()=>{
         getData()
     },[page])
 
     const pageCounter = (value)=>{
         if(page+value>0){
-            setPage(page+value);
+            setPage(page+value)
         }
     }
 
@@ -33,11 +34,12 @@ export const Grocery = () =>
     }
 
     const deleteFunction = (data)=>{
-        const arr = groceries.filter((e)=>{
-            return e!=data
+        axios.delete(`http://localhost:3001/groceries/${data['id']}`).then((res)=>{
         })
-        setGroceries(arr)
+        getData();
     }
+
+    
     return <>
     <h1>Grocery Management System</h1>
     <GroceryInput addGrocery={addGrocery}></GroceryInput>

@@ -4,12 +4,17 @@ import { Timer } from './components/timer'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [show,setShow] = useState(true);
 
   return (
     <div className="App">
-      Timer Values and all
-      <Timer startTime={10} endTime={3}></Timer>
+      {show?<Timer startTime={10} endTime={3}></Timer>:""}
+
+      <button onClick={()=>{
+        setShow(!show)
+      }}>
+        {show?"Hide Timer":"Show Timer"}
+      </button>
     </div>
   )
 }

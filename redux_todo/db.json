@@ -1,0 +1,29 @@
+{
+  "todos": [
+    {
+      "content": "react debuggin",
+      "status": "Not Done",
+      "id": 1
+    },
+    {
+      "content": "react redux assignment",
+      "status": "Not Done",
+      "id": 2
+    },
+    {
+      "content": "react redux assignment",
+      "status": "Not Done",
+      "id": 3
+    },
+    {
+      "content": "dsa",
+      "status": "Not Done",
+      "id": 4
+    },
+    {
+      "content": "scrum",
+      "status": "Not Done",
+      "id": 5
+    }
+  ]
+}

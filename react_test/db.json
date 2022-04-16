@@ -1,0 +1,38 @@
+{
+  "countries": [
+    {
+      "country_name": "India",
+      "id": 1
+    },
+    {
+      "country_name": "SriLanka",
+      "id": 3
+    },
+    {
+      "country_name": "USA",
+      "id": 4
+    },
+    {
+      "country_name": "Canada",
+      "id": 5
+    }
+  ],
+  "cities": [
+    {
+      "city_name": "Delhiqq",
+      "city_population": "198",
+      "country_name": "Indiaaa",
+      "id": 5
+    },
+    {
+      "country_name": "Ukraine",
+      "city_name": "Delhiii",
+      "city_population": "1900000000",
+      "id": 6
+    },
+    {
+      "city_name": "Brazil",
+      "id": 7
+    }
+  ]
+}

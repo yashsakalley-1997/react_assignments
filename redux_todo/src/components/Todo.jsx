@@ -1,7 +1,8 @@
 import { useDispatch,useSelector } from "react-redux"
 import { useEffect, useState } from "react";
-import { addTodo,delTodo,updateTodo } from "../redux/action";
+import { getTodo,delTodo,updateTodo,getTodoLoading,getTodoError } from "../redux/action";
 import axios from "axios";
+import { store } from "../redux/store";
 
 export const Todo = ()=>{
 
@@ -9,14 +10,17 @@ export const Todo = ()=>{
     const [state,setState] = useState({});
     const [text,setText] = useState("");
     const dispatch = useDispatch();
-    const todos = useSelector((store)=>store.todo);
-
+    const {todos,loading,error} = useSelector((store)=>store);
+    console.log(loading,error)
     useEffect(()=>{
+        getData()
+    },[state])
+    
+    const getData = ()=>{
         axios.get("http://localhost:3001/todos").then((res)=>{
             setData(res.data)
         })
-    },[state])
-    
+    }
     const handleInsert = (object)=>{
         setState(object)
         axios.post("http://localhost:3001/todos",object).then((res)=>{

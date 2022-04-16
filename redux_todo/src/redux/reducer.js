@@ -1,15 +1,18 @@
-import { ADD_TODO } from "./action";
+import { GET_TODO } from "./action";
 import { DELETE_TODO } from "./action";
 import { UPDATE_TODO } from "./action";
 
 
 const initState = {
-    todo:[]
+    todo:[],
+    loading:false,
+    error:false
 }
+
 export const reducer = (store = initState,{type,payload})=>{
     switch(type){
-        case ADD_TODO:
-            return {...store,todo:[...store.todo,payload]}
+        case GET_TODO:
+            return {...store,todo:payload}
         case DELETE_TODO:
             return {...store,todo:[...store.todo.filter((el)=>el!=payload)]}
         case UPDATE_TODO:

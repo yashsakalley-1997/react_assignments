@@ -46,7 +46,7 @@ export const Register = ()=>{
 
                 <Form.Group className="mb-3" controlId="password" onChange={formChange}>
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="text"/>
+                    <Form.Control type="password"/>
                 </Form.Group>
 
                 

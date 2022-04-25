@@ -24,7 +24,7 @@ app.use("/booking",bookingController);
 
 
 
-app.listen(process.env || port,async ()=>{
+app.listen(process.env.PORT || port,async ()=>{
     try{
         await connect()
         console.log("Listening on Port "+port)

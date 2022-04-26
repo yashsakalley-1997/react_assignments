@@ -14,24 +14,37 @@ import TextField from '@mui/material/TextField';
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { filterEntity } from '../Redux/action';
+
+
+// import { entityLoading,entityError,getEntity,filterEntity } from '../Redux/action';
+
+import { getEntities,filterEntity } from "../Redux/action";
+import { useNavigate } from 'react-router-dom';
 
 
 export const Display  = () => {
-    const { entities } = useSelector((state)=>state);
-    // const [data,setData] = React.useState([]);
-
+    const { entities,loading,error } = useSelector((state)=>state.entity);
     const dispatch = useDispatch();
+    const Navigate = useNavigate();
+    React.useEffect(()=>{
+      getData()
+    },[])
 
+    const getData = ()=>{
+      dispatch(getEntities())
+    }
 
     const handleSearch = (e)=>{
         if(e.key === "Enter"){
             const action = filterEntity(e.target.value);
-            let data = dispatch(action);
-            console.log(data)
         }
     }
-  return (
+
+  return loading?(
+    <h1>Loading the Data....</h1>
+  ):error?(
+    <h1>Error while fetching the data</h1>
+  ):(
     <>
     <Grid item xs={12} sm={6}>
         <Grid item xs={12} sm={6}>
@@ -40,7 +53,6 @@ export const Display  = () => {
                 label="Search by City"
                 type="text"
                 onKeyDown={handleSearch}
-            //   onChange={handleChange}
                 id="supervision_level"
             />
         </Grid>
@@ -63,6 +75,9 @@ export const Display  = () => {
           {entities.map((row,id) => (
             <TableRow
               key={id}
+              onClick= {()=>{
+                Navigate(`/details/${row['_id']}`)
+              }}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell align='right'>{id+1}</TableCell>

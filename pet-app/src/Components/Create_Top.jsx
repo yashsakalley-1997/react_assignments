@@ -11,12 +11,10 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useDispatch } from 'react-redux'; 
-import { addEntity } from '../Redux/action';
+import { createEntity } from "../Redux/action";
 
 import { Create } from "./Create";
 import { CreateBasic } from "./Create_Basic";
-
-
 
 const steps = ['General Details', 'Pet Details'];
 
@@ -54,9 +52,7 @@ export const CreateTop  = () => {
   };
 
   const handleSubmit = ()=>{
-        const action = addEntity(formData);
-        dispatch(action)
-        console.log(formData)
+    dispatch(createEntity(formData))
   }
   return (
     

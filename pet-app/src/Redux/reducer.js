@@ -1,55 +1,32 @@
-import { ADD_ENTITY, FILTER_ENTITY } from "./action_types"
-
-
+import { FILTER_ENTITY,
+    GET_ENTITY,
+    GET_ENTITY_LOADING,
+    GET_ENTITY_ERROR, 
+    SET_USER,
+    GET_PETS } from "./action_types"
+    
 const initState = {
-    entities:[
-    {
-        "address": "abcd villa",
-        "area_size": "123",
-        "buffer_place": "love",
-        "city": "Indore",
-        "cost_per_day": "234",
-        "emergency_transport": "Ye",
-        "house_type": "villa",
-        "name": "Doggo Zone",
-        "pet": "Dogs",
-        "pet_numbers": "10",
-        "poo_breaks": "4",
-        "rating": "3",
-        "sleeping_place": "lap",
-        "status": "Verified",
-        "supervision_level": "love",
-        "walks_per_day": "4",
-        "weight": "20-40 kg"
-    },
-    {
-        "address": "abcd villa",
-        "area_size": "123",
-        "buffer_place": "love",
-        "city": "Bhopal",
-        "cost_per_day": "234",
-        "emergency_transport": "Ye",
-        "house_type": "villa",
-        "name": "Doggo Zone",
-        "pet": "Dogs",
-        "pet_numbers": "10",
-        "poo_breaks": "4",
-        "rating": "3",
-        "sleeping_place": "lap",
-        "status": "Verified",
-        "supervision_level": "love",
-        "walks_per_day": "4",
-        "weight": "20-40 kg"
-    }]
+    entities:[],
+    loading:false,
+    error:false,
+    loggedIn_user:{},
+    pets:[]
 }
 
 export const reducer = (state = initState,{type,payload})=>{
-    console.log(type,payload)
     switch(type){
-        case ADD_ENTITY:
+        case GET_ENTITY:
             return {
                 ...state,
-                entities: [...state.entities,payload]
+                entities: payload,
+                loading:false
+            }
+        
+        case GET_PETS:
+            return {
+                ...state,
+                pets : payload,
+                loading:false
             }
         case FILTER_ENTITY:
             return {
@@ -57,6 +34,21 @@ export const reducer = (state = initState,{type,payload})=>{
                 entities:[...state.entities.filter((elem)=>{
                     return elem['city'] === payload
                 })]
+            }
+        case GET_ENTITY_LOADING:
+            return {
+                ...state,
+                loading:true
+            }
+        case GET_ENTITY_ERROR:
+            return {
+                ...state,
+                error:true
+            }
+        case SET_USER:
+            return {
+                ...state,
+                loggedIn_user:payload
             }
         default:
             return state;

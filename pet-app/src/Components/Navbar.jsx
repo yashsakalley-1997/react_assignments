@@ -13,12 +13,14 @@ import MenuItem from '@mui/material/MenuItem';
 
 import { useNavigate } from 'react-router-dom';
 
-const pages = ['home', 'create'];
+import { useSelector } from 'react-redux';
 
 
 export const NavBar = () => {
+  let pages = ['home','login','register'];
+  const { loggedIn_user } = useSelector((state)=>state.entity);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-
+  
   const Navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
@@ -28,6 +30,12 @@ export const NavBar = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  React.useEffect(()=>{
+    if(loggedIn_user['user_type'] === "user"){
+      pages.push('pet details')
+    }
+  },[])
 
   return (
     <AppBar 
@@ -67,11 +75,28 @@ export const NavBar = () => {
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography onClick={()=>{
-
+                      
                       Navigate(`/${(page === "home")?"":page}`)
                   }} textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
+              {(loggedIn_user['user_type'] === "user")?
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Typography onClick={()=>{
+
+                    // Navigate(`/${(page === "home")?"":page}`)
+                }} textAlign="center">Pet Details
+                </Typography>
+              </MenuItem>:""}
+
+              {(loggedIn_user['user_type'] === 'admin')?
+              <MenuItem onClick={handleCloseNavMenu}>
+              <Typography onClick={()=>{
+                Navigate('/create')
+              }} textAlign="center">Pet Details
+              </Typography>
+            </MenuItem>:""}
+
             </Menu>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -86,6 +111,23 @@ export const NavBar = () => {
                 {page}
               </Button>
             ))}
+            {(loggedIn_user['user_type'] === "user")?
+              <Button onClick={()=>{
+                Navigate("/pet")
+              }}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                Pet Details
+              </Button>:""}
+            
+              {(loggedIn_user['user_type'] === 'admin')?
+                <Button onClick={()=>{
+                  Navigate("/create")
+                }}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  Create
+                </Button>:""}
           </Box>
         </Toolbar>
       </Container>

@@ -14,16 +14,12 @@ import TextField from '@mui/material/TextField';
 
 import { useDispatch, useSelector } from "react-redux";
 
-
-
-// import { entityLoading,entityError,getEntity,filterEntity } from '../Redux/action';
-
 import { getEntities,filterEntity } from "../Redux/action";
 import { useNavigate } from 'react-router-dom';
 
 
 export const Display  = () => {
-    const { entities,loading,error } = useSelector((state)=>state.entity);
+    const { entities,loading,error,loggedIn_user } = useSelector((state)=>state.entity);
     const dispatch = useDispatch();
     const Navigate = useNavigate();
     React.useEffect(()=>{
@@ -76,7 +72,7 @@ export const Display  = () => {
             <TableRow
               key={id}
               onClick= {()=>{
-                Navigate(`/details/${row['_id']}`)
+                (loggedIn_user['user_type'] == "user")?Navigate(`/details/${row['_id']}`):console.log()
               }}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >

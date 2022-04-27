@@ -3,14 +3,16 @@ import { FILTER_ENTITY,
     GET_ENTITY_LOADING,
     GET_ENTITY_ERROR, 
     SET_USER,
-    GET_PETS } from "./action_types"
+    GET_PETS,
+    GET_BOOKINGS } from "./action_types"
     
 const initState = {
     entities:[],
     loading:false,
     error:false,
     loggedIn_user:{},
-    pets:[]
+    pets:[],
+    bookings:[]
 }
 
 export const reducer = (state = initState,{type,payload})=>{
@@ -28,6 +30,7 @@ export const reducer = (state = initState,{type,payload})=>{
                 pets : payload,
                 loading:false
             }
+
         case FILTER_ENTITY:
             return {
                 ...state,
@@ -35,21 +38,31 @@ export const reducer = (state = initState,{type,payload})=>{
                     return elem['city'] === payload
                 })]
             }
+
         case GET_ENTITY_LOADING:
             return {
                 ...state,
                 loading:true
             }
+
         case GET_ENTITY_ERROR:
             return {
                 ...state,
                 error:true
             }
+
         case SET_USER:
             return {
                 ...state,
                 loggedIn_user:payload
             }
+
+        case GET_BOOKINGS:
+            return {
+                ...state,
+                bookings:payload
+            }
+            
         default:
             return state;
     }

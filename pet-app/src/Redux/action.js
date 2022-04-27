@@ -4,12 +4,20 @@ import { FILTER_ENTITY,
     GET_ENTITY_LOADING, 
     GET_ENTITY_ERROR, 
     SET_USER,
-    GET_PETS} from "./action_types"
+    GET_PETS,
+    GET_BOOKINGS} from "./action_types"
 
 import axios from "axios"
 export const getEntity = (payload)=>{
     return {
         type:GET_ENTITY,
+        payload
+    }
+}
+
+export const getBooking = (payload)=>{
+    return {
+        type:GET_BOOKINGS,
         payload
     }
 }
@@ -46,20 +54,20 @@ export const entityLoading = ()=>{
     }
 }
 
-export const entityError = ()=>{
+export const entityError = (payload)=>{
     return {
-        type:GET_ENTITY_ERROR
+        type:GET_ENTITY_ERROR,
+        payload
     }
 }
-
 export const getEntities = () => async (dispatch) => {
     try{
         dispatch(entityLoading())
-        const { data } = await axios.get("http://localhost:8080/entity");
+        const { data } = await axios.get("https://hidden-tor-41185.herokuapp.com/entity");
         dispatch(getEntity(data))
     }
     catch(err){
-        console.log("error is",err)
+        console.log("error",err)
         dispatch(entityError())
     }
 }
@@ -67,17 +75,27 @@ export const getEntities = () => async (dispatch) => {
 export const getPets = (id) => async (dispatch) => {
     try{
         dispatch(entityLoading())
-        const { data } = await axios.get(`http://localhost:8080/pet/${id}`);
+        const { data } = await axios.get(`https://hidden-tor-41185.herokuapp.com/pet/${id}`);
         dispatch(getPet(data))
     }
     catch(err){
-        dispatch(entityError())
+        console.log(err)
+    }
+}
+
+export const getBookings = (payload) => async (dispatch) =>{
+    try{
+        const { data } = await axios.get("https://hidden-tor-41185.herokuapp.com/booking",payload);
+        dispatch(getBooking(data))
+    }
+    catch(err){
+        console.log(err)        
     }
 }
 
 export const createEntity = (payload) => async (dispatch) => {
     try{
-        const { res } = await axios.post("http://localhost:8080/entity",payload);
+        const { res } = await axios.post("https://hidden-tor-41185.herokuapp.com/entity",payload);
         dispatch(getEntities())
     }
     catch(err){
@@ -86,9 +104,8 @@ export const createEntity = (payload) => async (dispatch) => {
 }
 
 export const createPet = (payload) => async (dispatch) => {
-    console.log(payload)
     try{
-        const { res } = await axios.post("http://localhost:8080/pet",payload)
+        const { res } = await axios.post("https://hidden-tor-41185.herokuapp.com/pet",payload)
         dispatch(getPets())
     }
     catch(err){
@@ -96,10 +113,21 @@ export const createPet = (payload) => async (dispatch) => {
     }
 }
 
+export const createBooking = (payload) => async (dispatch) => {
+    try{
+        console.log(payload)
+        const { res } = await axios.post("https://hidden-tor-41185.herokuapp.com/booking",payload)
+        dispatch(getBookings())
+    }
+    catch(err){
+        console.log(err.message)
+    }   
+}
+
 
 export const userLogin = (payload) => async (dispatch) =>{
     try{
-        const { data }  = await axios.post("http://localhost:8080/login",payload);
+        const { data }  = await axios.post("https://hidden-tor-41185.herokuapp.com/login",payload);
         let obj = data.user;
         (obj.email.split("@")[1].includes("admin"))?
         obj['user_type'] = "admin":obj['user_type'] = "user"

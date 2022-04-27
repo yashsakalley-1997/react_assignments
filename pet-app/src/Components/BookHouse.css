@@ -1,0 +1,6 @@
+.form_inputs{
+    display: grid;
+    padding: 20px;
+    grid-template-columns: repeat(3,25%);
+    grid-gap: 20px;
+}

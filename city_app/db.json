@@ -1,0 +1,44 @@
+{
+  "countries": [
+    {
+      "country_id": "953c0abc-7787-44f1-9368-90fb1bcfb0f6",
+      "country_name": "India",
+      "id": 1
+    },
+    {
+      "country_id": "d3d9e51c-b286-4507-bf8d-78ae619e0cf1",
+      "country_name": "United Stated of America",
+      "id": 2
+    },
+    {
+      "country_id": "7861855d-d94d-4344-b1ea-af80dfa6277c",
+      "country_name": "Canada",
+      "id": 3
+    },
+    {
+      "country_id": "48e5451f-9785-4b78-9705-8abcf4714958",
+      "country_name": "Australia",
+      "id": 4
+    }
+  ],
+  "cities": [
+    {
+      "city_name": "Delhi",
+      "population": "998899100",
+      "country": "India",
+      "id": 1
+    },
+    {
+      "city_name": "Sydney",
+      "population": "898988898911269",
+      "country": "Australia",
+      "id": 2
+    },
+    {
+      "city_name": "Toronto",
+      "population": "8989221",
+      "country": "United Stated of America",
+      "id": 3
+    }
+  ]
+}

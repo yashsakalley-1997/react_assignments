@@ -1,0 +1,6 @@
+export const GET_FLIGHTS = "GET_FLIGHTS";
+export const FLIGHTS_LOADING = "FLIGHTS_LOADING";
+export const FLIGHTS_ERROR = "FLIGHTS_ERROR";
+
+
+

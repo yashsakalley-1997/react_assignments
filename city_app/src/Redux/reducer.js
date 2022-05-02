@@ -2,7 +2,11 @@ import {
     GET_CITY,
     GET_CITY_LOADING,
     GET_COUNTRY,
-    GET_CITY_ERROR
+    GET_CITY_ERROR,
+    DELETE_CITY_ERROR,
+    DELETE_CITY_LOADING,
+    COUNTRIES_LOADING,
+    COUNTRIES_ERROR
 }
 from "./action_names";
 
@@ -10,7 +14,18 @@ const initState = {
     countries:[],
     cities:[],
     loading:false,
-    error:false
+    error:false,
+    deleteLoading:{
+        loading:false,
+        id:""
+    },
+    deleteError:{
+        error:false,
+        id:""
+    }
+    ,
+    countryLoading:false,
+    countryError:false
 }
 
 export const reducer = (state=initState,{type,payload})=>{
@@ -26,6 +41,7 @@ export const reducer = (state=initState,{type,payload})=>{
             return {
                 ...state,
                 countries:payload,
+                countryLoading:false
             }
 
         case GET_CITY_LOADING:
@@ -40,7 +56,37 @@ export const reducer = (state=initState,{type,payload})=>{
                 error:true
             }
         
+        case DELETE_CITY_LOADING:
+            return {
+                ...state,
+                deleteLoading:{
+                    loading:true,
+                    id:payload
+                }
+            }
+
+        case DELETE_CITY_ERROR:
+            return {
+                ...state,
+                deleteError:{
+                    error:true,
+                    id:payload
+                }
+            }
+
+        case COUNTRIES_LOADING:
+            return {
+                ...state,
+                countryLoading:true
+            }
+
+        case COUNTRIES_ERROR:
+            return {
+                ...state,
+                countryError:true
+            }
+
         default:
             return state
     }
-}
+} 

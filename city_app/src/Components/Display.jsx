@@ -22,7 +22,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDispatch,useSelector } from 'react-redux';
 import { getCities,filterCity,sortCities,deleteCity,getCountries,updateCity } from '../Redux/actions';
 
-
 export const Display = ()=>{
 
     const [modalData,setModalData] = React.useState({});
@@ -31,7 +30,7 @@ export const Display = ()=>{
     const [country,setCountry] = React.useState("")
 
     const dispatch = useDispatch();
-    const {cities,loading,error,countries} = useSelector((state)=>state.city_app)
+    const {cities,loading,error,countries,deleteLoading,deleteError} = useSelector((state)=>state.city_app)
 
     React.useEffect(()=>{
         getData()
@@ -170,6 +169,7 @@ export const Display = ()=>{
                         onClick={()=>{
                             handleDelete(row)
                         }}
+                        disabled={(deleteLoading['id'] === row['id'] || deleteError['id'] === row['id'])?true:false}
                     >
                         Delete
                     </Button>

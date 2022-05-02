@@ -21,7 +21,7 @@ const theme = createTheme();
 export const AddCity = ()=>{
   const [formData,setForm] = React.useState({});
   const [country,setCountry] = React.useState("");
-  const { countries }  = useSelector((state)=>state.city_app)
+  const { countries,countryLoading,countryError }  = useSelector((state)=>state.city_app)
   const dispatch = useDispatch();
 
   React.useEffect(()=>{
@@ -46,12 +46,13 @@ export const AddCity = ()=>{
   const handleSubmit = (e)=>{
     e.preventDefault();
     dispatch(addCity({...formData,country}))
+    window.alert("City Inserted")
   }
 
   const getData = ()=>{
     dispatch(getCountries())
   }
-
+ 
 
   return (
     <ThemeProvider theme={theme}>
@@ -69,8 +70,8 @@ export const AddCity = ()=>{
             
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
                   name="city_name"
+                  required
                   label="City_Name"
                   type="text"
                   onChange={handleChange}
@@ -89,8 +90,9 @@ export const AddCity = ()=>{
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                <TextField
+                {(countryLoading == true)?<span>Loading the countries</span>:<TextField
                       id="country_name"
+                      required
                       name="country_name"
                       select
                       value={country}
@@ -102,7 +104,7 @@ export const AddCity = ()=>{
                           {option.country_name}
                           </MenuItem>
                       ))}
-                  </TextField>
+                  </TextField>}
               </Grid> 
               
                             
@@ -111,6 +113,7 @@ export const AddCity = ()=>{
                   variant="contained"
                   sx={{ mt: 2, ml: 1 }}
                   onClick={handleSubmit}
+                  disabled={(countryLoading === true || countryError === true)?true:false}
                 >
                     Add City
                 </Button>

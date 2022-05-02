@@ -34,6 +34,7 @@ export const AddCountry = ()=>{
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(addCountry(formData))
+    window.alert("Country Added")
   }
 
   return (

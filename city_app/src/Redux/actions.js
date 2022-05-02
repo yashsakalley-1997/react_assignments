@@ -80,7 +80,7 @@ export const getCountries = () =>async (dispatch) =>{
 
 export const addCountry = (payload) => async (dispatch) =>{
     try{
-        await axios.post("http://localhost:8080/countries",payload);
+        await axios.post("https://city-population-app.herokuapp.com/api/countries",payload);
         dispatch(getCountries())
     }
     catch(err){

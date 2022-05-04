@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-
+import Box from '@mui/material/Box';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -26,12 +26,10 @@ export const Display = ()=>{
 
     const [modalData,setModalData] = React.useState({});
     const [open, setOpen] = React.useState(false);
-    const [formData,setForm] = React.useState({});
     const [country,setCountry] = React.useState("")
 
     const dispatch = useDispatch();
     const {cities,loading,error,countries,deleteLoading,deleteError} = useSelector((state)=>state.city_app)
-
     React.useEffect(()=>{
         getData()
     },[])
@@ -40,9 +38,22 @@ export const Display = ()=>{
         dispatch(getCities())
     }
 
-    const handleSubmit = ()=>{
-        formData['country'] = country
-        let payload = {...modalData,...formData}
+    const handleCountryChange = (e)=>{
+      setCountry(e.target.value);
+    }
+
+    const handleSubmit = (e)=>{
+        e.preventDefault()
+        const data = new FormData(e.currentTarget);
+        const formData = {
+          city_name:data.get("city_name"),
+          population:data.get("population"),
+          country:data.get("country_name")
+        }
+        const payload = {...modalData,...formData}
+        if(!payload['country']){
+          payload['country'] = modalData['country']
+        }
         dispatch(updateCity(payload))    
         setOpen(false)
     }
@@ -53,22 +64,6 @@ export const Display = ()=>{
         }
     }
 
-    const handleCountryChange = (e)=>{
-        e.preventDefault();
-        setCountry(e.target.value);
-      }
-
-    const handleChange = (e)=>{
-        const {id,value} = e.target;
-        setForm(
-            {
-                ...formData,
-                [id]:value
-            }
-        )
-      }
-
-
 
     const sortData = (value)=>{
         dispatch(sortCities(value))
@@ -76,7 +71,7 @@ export const Display = ()=>{
 
     const handleModal = (data)=>{
         dispatch(getCountries())
-        setOpen(!open)
+        setOpen(true)
         setModalData(data)
     }
 
@@ -189,60 +184,61 @@ export const Display = ()=>{
 
 
             <DialogContent>
-            <Grid container spacing={2}>
-            
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                name="city_name"
-                label="City_Name"
-                type="text"
-                onChange={handleChange}
-                defaultValue={modalData.city_name}
-                id="city_name"
-              />
-            </Grid>
+            <Box component="form" onSubmit={handleSubmit} sx={{mt:3}}>
+                  <Grid container spacing={2}>
+                  
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      name="city_name"
+                      label="City_Name"
+                      type="text"
+                      defaultValue={modalData.city_name}
+                      id="city_name"
+                    />
+                  </Grid>
 
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                label="population"
-                type="number"
-                onChange={handleChange}
-                defaultValue={modalData.population}
-                id="population"
-              />
-            </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      label="population"
+                      type="number"
+                      defaultValue={modalData.population}
+                      id="population"
+                      name="population"
+                    />
+                  </Grid>
 
-            <Grid item xs={12} sm={6}>
-              <TextField
-                    id="country_name"
-                    name="country_name"
-                    select
-                    defaultValue={country}
-                    onChange={handleCountryChange}
-                    helperText="Select Countries"
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                          id="country_name"
+                          name="country_name"
+                          select
+                          value={country}
+                          helperText="Select Countries"
+                          onChange={handleCountryChange}
+                          >
+                          {countries.map((option,i) => (
+                              <MenuItem key={i} value={option.country_name}>
+                              {option.country_name}
+                              </MenuItem>
+                          ))}
+                      </TextField>
+                  </Grid> 
+                  
+                                
+                  <Grid item xs={12} sm={6}>
+                    <Button
+                      variant="contained"
+                      type='submit'
+                      sx={{ mt: 2, ml: 1 }}
                     >
-                    {countries.map((option,i) => (
-                        <MenuItem key={i} value={option.country_name}>
-                        {option.country_name}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </Grid> 
-            
-                          
-            <Grid item xs={12} sm={6}>
-              <Button
-                variant="contained"
-                sx={{ mt: 2, ml: 1 }}
-                onClick={handleSubmit}
-              >
-                  Update City
-              </Button>
-            </Grid>
+                        Update City
+                    </Button>
+                  </Grid>
 
-          </Grid>
+                </Grid>
+            </Box>
             </DialogContent>
 
             <DialogActions>

@@ -16,23 +16,15 @@ import { addCountry } from "../Redux/actions";
 const theme = createTheme();
 
 export const AddCountry = ()=>{
-  const [formData,setForm] = React.useState({});
   const dispatch = useDispatch();
-
-  
-  const handleChange = (e)=>{
-    const {id,value} = e.target;
-    setForm(
-        {
-            ...formData,
-            country_id:uuidv4(),
-            [id]:value
-        }
-    )
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const formData = {
+      country_name:data.get("country_name"),
+      country_id:uuidv4()
+    }
     dispatch(addCountry(formData))
     window.alert("Country Added")
   }
@@ -48,26 +40,25 @@ export const AddCountry = ()=>{
             alignItems: 'center',
           }}
         >
-          <Box component="form" noValidate sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
             
               <Grid>
                 <TextField
                   required
-                  name="name"
                   label="name"
                   type="text"
-                  onChange={handleChange}
                   id="country_name"
+                  name="country_name"
                 />
               </Grid>
 
 
               <Grid>
                 <Button
+                    type='submit'
                     variant="contained"
                     sx={{ mt: 1, ml: 1 }}
-                    onClick={handleSubmit}
                 >
                     Submit Country
                 </Button>

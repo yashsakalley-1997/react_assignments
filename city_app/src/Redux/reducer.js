@@ -34,7 +34,12 @@ export const reducer = (state=initState,{type,payload})=>{
             return {
                 ...state,
                 cities:payload,
-                loading:false
+                loading:false,
+                error:false,
+                deleteLoading:{
+                    loading:false,
+                    id:""
+                }
             }
         
         case GET_COUNTRY:

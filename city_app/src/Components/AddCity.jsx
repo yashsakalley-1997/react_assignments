@@ -10,7 +10,6 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
-
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch,useSelector } from 'react-redux';
 import { addCity,getCountries } from '../Redux/actions'; 
@@ -28,31 +27,28 @@ export const AddCity = ()=>{
     getData()
   },[])  
 
-  const handleChange = (e)=>{
-    const {id,value} = e.target;
-    setForm(
-        {
-            ...formData,
-            [id]:value
-        }
-    )
-  }
-
-  const handleCountryChange = (e)=>{
-    e.preventDefault();
-    setCountry(e.target.value);
-  }
 
   const handleSubmit = (e)=>{
-    e.preventDefault();
-    dispatch(addCity({...formData,country}))
+    e.preventDefault()
+    const data = new FormData(e.currentTarget);
+    const formData = {
+      "city_name":data.get("city_name"),
+      "population":data.get("population"),
+      "country":data.get("country_name")
+    }
+    dispatch(addCity(formData))
     window.alert("City Inserted")
   }
+
+
 
   const getData = ()=>{
     dispatch(getCountries())
   }
  
+  const handleCountryChange = (e)=>{
+    setCountry(e.target.value);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -65,17 +61,16 @@ export const AddCity = ()=>{
             alignItems: 'center',
           }}
         >
-          <Box component="form" noValidate sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
             
               <Grid item xs={12} sm={6}>
                 <TextField
-                  name="city_name"
                   required
                   label="City_Name"
                   type="text"
-                  onChange={handleChange}
                   id="city_name"
+                  name="city_name"
                 />
               </Grid>
 
@@ -84,23 +79,26 @@ export const AddCity = ()=>{
                   required
                   label="population"
                   type="number"
-                  onChange={handleChange}
                   id="population"
+                  name='population'
                 />
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                {(countryLoading == true)?<span>Loading the countries</span>:<TextField
-                      id="country_name"
+                {(countryLoading === true)?<span>Loading the countries</span>:
+                <TextField
                       required
-                      name="country_name"
                       select
                       value={country}
                       onChange={handleCountryChange}
+                      name="country_name"
+                      id='country_name'
                       helperText="Select Countries"
                       >
                       {countries.map((option,i) => (
-                          <MenuItem key={i} value={option.country_name}>
+                          <MenuItem 
+                          id='country_name'
+                          key={i} value={option.country_name}>
                           {option.country_name}
                           </MenuItem>
                       ))}
@@ -111,9 +109,10 @@ export const AddCity = ()=>{
               <Grid item xs={12} sm={6}>
                 <Button
                   variant="contained"
+                  type='submit'
                   sx={{ mt: 2, ml: 1 }}
-                  onClick={handleSubmit}
-                  disabled={(countryLoading === true || countryError === true)?true:false}
+                  disabled={(countryLoading === true 
+                    || countryError === true )?true:false}
                 >
                     Add City
                 </Button>

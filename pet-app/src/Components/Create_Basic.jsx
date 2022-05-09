@@ -27,6 +27,8 @@ export const CreateBasic = ({func})=>{
         }
     )
     func({...formData,...{status}})
+    const data = new FormData(e.currentTarget);
+
   }
 
   const handleSwitch = ()=>{
@@ -46,7 +48,9 @@ export const CreateBasic = ({func})=>{
             alignItems: 'center',
           }}
         >
-          <Box component="form" noValidate sx={{ mt: 3 }}>
+          <Box component="form" 
+          onChange={handleChange}
+          noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
             
               <Grid item xs={12} sm={6}>

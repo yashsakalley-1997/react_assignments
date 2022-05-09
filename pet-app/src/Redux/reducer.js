@@ -1,5 +1,4 @@
-import { FILTER_ENTITY,
-    GET_ENTITY,
+import {GET_ENTITY,
     GET_ENTITY_LOADING,
     GET_ENTITY_ERROR, 
     SET_USER,
@@ -29,14 +28,6 @@ export const reducer = (state = initState,{type,payload})=>{
                 ...state,
                 pets : payload,
                 loading:false
-            }
-
-        case FILTER_ENTITY:
-            return {
-                ...state,
-                entities:[...state.entities.filter((elem)=>{
-                    return elem['city'] === payload
-                })]
             }
 
         case GET_ENTITY_LOADING:

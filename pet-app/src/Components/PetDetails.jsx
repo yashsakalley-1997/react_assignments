@@ -26,11 +26,10 @@ export const PetDetails = ()=>{
     const [pet,setPet] = React.useState("Dogs")
     const [food,setFood] = React.useState("Veg");
 
-    const [formData,setForm] =  React.useState({});
 
     const dispatch = useDispatch();
 
-    const {pets,loading,error,loggedIn_user} = useSelector((state)=>state.entity);
+    const {pets,loggedIn_user} = useSelector((state)=>state.entity);
     React.useEffect(()=>{
       getData()
     },[])
@@ -38,23 +37,29 @@ export const PetDetails = ()=>{
     const getData = ()=>{
       dispatch(getPets(loggedIn_user['_id']))
     }
-    const handleChange = (e)=>{
-        const {id,value} = e.target;
-        setForm(
-            {
-                ...formData,
-                [id]:value
-            }
-        )
+    // const handleChange = (e)=>{
+    //     const {id,value} = e.target;
+    //     setForm(
+    //         {
+    //             ...formData,
+    //             [id]:value
+    //         }
+    //     )
+    // }
+
+    const handleSubmit = (e)=>{
+      e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        const formData = {
+          "pet_type":data.get("pet_type"),
+          "food_type":data.get("food_type"),
+          "weight":data.get("weight"),
+          "pet_name":data.get("pet_name"),
+          "user_id":loggedIn_user._id
+        }
+        dispatch(createPet(formData))
     }
 
-    const handleSubmit = ()=>{
-      let payload = {...formData,
-        pet_type:pet,
-        food_type:food,
-        user_id:loggedIn_user['_id']}
-        dispatch(createPet(payload))
-    }
     const pet_cats = [
         {
             value:"Dogs",
@@ -103,7 +108,7 @@ export const PetDetails = ()=>{
                 alignItems: 'center',
               }}
             >
-              <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+              <Box component="form"  onSubmit={handleSubmit} sx={{ mt: 3 }}>
                 <Grid container spacing={1
                 }>
                   <Grid item xs={12} sm={6}>
@@ -112,8 +117,8 @@ export const PetDetails = ()=>{
                         name="pet_type"
                         select
                         value={pet}
-                        onChange={handleChangePet}
                         helperText="Select accepted pet types"
+                        onChange={handleChangePet}
                         >
                         {pet_cats.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
@@ -128,8 +133,8 @@ export const PetDetails = ()=>{
                     <TextField
                       required
                       id="pet_name"
+                      name='pet_name'
                       label="Name"
-                      onChange={handleChange}
                       type="text"
                     />
                     
@@ -139,15 +144,15 @@ export const PetDetails = ()=>{
                       required
                       label="Weight."
                       type="number"
-                      onChange={handleChange}
                       id="weight"
+                      name='weight'
                     />
                   </Grid>
                 
                   <Grid item xs={12} sm={6}>
                     <TextField
-                        id="pet_category"
-                        name="pet_category"
+                        id="food_type"
+                        name="food_type"
                         select
                         value={food}
                         onChange={handleChangeFood}
@@ -164,9 +169,7 @@ export const PetDetails = ()=>{
 
                   <Grid item xs={12}>
                     <Button 
-                    onClick={()=>{
-                        handleSubmit()
-                    }}
+                    type='submit'
                     variant="contained">Add</Button>
                   </Grid>
                   

@@ -1,5 +1,4 @@
-import { FILTER_ENTITY, 
-    SORT_ENTITY,
+import { 
     GET_ENTITY, 
     GET_ENTITY_LOADING, 
     GET_ENTITY_ERROR, 
@@ -28,12 +27,6 @@ export const getPet = (payload)=>{
         payload
     }
 }
-export const filterEntity = (payload)=>{
-    return {
-        type:FILTER_ENTITY,
-        payload
-    }
-}
 
 export const setUser = (payload)=>{
     return {
@@ -42,11 +35,6 @@ export const setUser = (payload)=>{
     }
 }
 
-export const sortEntity = ()=>{
-    return {
-        type:SORT_ENTITY
-    }
-}
 
 export const entityLoading = ()=>{
     return {
@@ -60,10 +48,12 @@ export const entityError = (payload)=>{
         payload
     }
 }
+
+
 export const getEntities = () => async (dispatch) => {
     try{
         dispatch(entityLoading())
-        const { data } = await axios.get("https://hidden-tor-41185.herokuapp.com/entity");
+        const { data } = await axios.get("https://pet-bos-app.herokuapp.com/entity");
         dispatch(getEntity(data))
     }
     catch(err){
@@ -75,7 +65,7 @@ export const getEntities = () => async (dispatch) => {
 export const getPets = (id) => async (dispatch) => {
     try{
         dispatch(entityLoading())
-        const { data } = await axios.get(`https://hidden-tor-41185.herokuapp.com/pet/${id}`);
+        const { data } = await axios.get(`https://pet-bos-app.herokuapp.com/pet/${id}`);
         dispatch(getPet(data))
     }
     catch(err){
@@ -85,7 +75,7 @@ export const getPets = (id) => async (dispatch) => {
 
 export const getBookings = (payload) => async (dispatch) =>{
     try{
-        const { data } = await axios.get("https://hidden-tor-41185.herokuapp.com/booking",payload);
+        const { data } = await axios.get("https://pet-bos-app.herokuapp.com/booking",payload);
         dispatch(getBooking(data))
     }
     catch(err){
@@ -95,7 +85,7 @@ export const getBookings = (payload) => async (dispatch) =>{
 
 export const createEntity = (payload) => async (dispatch) => {
     try{
-        const { res } = await axios.post("https://hidden-tor-41185.herokuapp.com/entity",payload);
+        await axios.post("https://pet-bos-app.herokuapp.com/entity",payload);
         dispatch(getEntities())
     }
     catch(err){
@@ -105,18 +95,17 @@ export const createEntity = (payload) => async (dispatch) => {
 
 export const createPet = (payload) => async (dispatch) => {
     try{
-        const { res } = await axios.post("https://hidden-tor-41185.herokuapp.com/pet",payload)
-        dispatch(getPets())
+        await axios.post(`https://pet-bos-app.herokuapp.com/pet`,payload)
+        dispatch(getPets(payload['user_id']))
     }
     catch(err){
-        console.log(err)
+        console.log(err.message)
     }
 }
 
 export const createBooking = (payload) => async (dispatch) => {
     try{
-        console.log(payload)
-        const { res } = await axios.post("https://hidden-tor-41185.herokuapp.com/booking",payload)
+        await axios.post("https://pet-bos-app.herokuapp.com/booking",payload)
         dispatch(getBookings())
     }
     catch(err){
@@ -124,10 +113,28 @@ export const createBooking = (payload) => async (dispatch) => {
     }   
 }
 
+export const filterEntity = (payload) => async (dispatch) =>{
+    try{
+        let { data } = await axios.get(`https://pet-bos-app.herokuapp.com/entity?${payload['by']}=${payload['value']}`)
+        dispatch(getEntity(data))
+    }
+    catch(err){
+        console.log(err)
+    }
+}
 
+export const sortEntities = (payload) => async (dispatch) =>{
+    try{
+        const { data } = await axios.get(`https://pet-bos-app.herokuapp.com/entity/?sort=${payload[0]}&by=${payload[1]}`);
+        dispatch(getEntity(data))
+    }
+    catch(err){
+        console.log(err)
+    }
+}
 export const userLogin = (payload) => async (dispatch) =>{
     try{
-        const { data }  = await axios.post("https://hidden-tor-41185.herokuapp.com/login",payload);
+        const { data }  = await axios.post("https://pet-bos-app.herokuapp.com/login",payload);
         let obj = data.user;
         (obj.email.split("@")[1].includes("admin"))?
         obj['user_type'] = "admin":obj['user_type'] = "user"

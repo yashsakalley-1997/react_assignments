@@ -1,6 +1,7 @@
 export const SORT_CITY = "SORT_CITY";
 export const GET_COUNTRY = "GET_COUNTRY";
 export const GET_CITY = "GET_CITY";
+export const PAGE_CITY = "PAGE_CITY";
 
 
 export const GET_CITY_ERROR = "GET_CITY_ERROR";

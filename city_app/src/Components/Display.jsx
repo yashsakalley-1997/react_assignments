@@ -12,6 +12,11 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 
+
+import ReactPaginate from "react-paginate";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -20,26 +25,43 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 import { useDispatch,useSelector } from 'react-redux';
-import { getCities,filterCity,sortCities,deleteCity,getCountries,updateCity } from '../Redux/actions';
+import { getCities,cityPagination,filterCity,sortCities,deleteCity,getCountries,updateCity } from '../Redux/actions';
 
 export const Display = ()=>{
-
     const [modalData,setModalData] = React.useState({});
     const [open, setOpen] = React.useState(false);
-    const [country,setCountry] = React.useState("")
+    const [country,setCountry] = React.useState("");
+    const [pageNumber,setPageNumber] = React.useState(1);
+
+    
 
     const dispatch = useDispatch();
-    const {cities,loading,error,countries,deleteLoading,deleteError} = useSelector((state)=>state.city_app)
+    let {cities,pageCities,loading,error,countries,deleteLoading,deleteError} = useSelector((state)=>state.city_app)
+  
+
     React.useEffect(()=>{
         getData()
+        dispatch(cityPagination({"start":firstIndex,"end":lastIndex}))
     },[])
 
     const getData = ()=>{
         dispatch(getCities())
+
     }
 
     const handleCountryChange = (e)=>{
       setCountry(e.target.value);
+    }
+
+    const cityPerPage = 2;
+    let lastIndex = pageNumber*cityPerPage;
+    let firstIndex = lastIndex - cityPerPage;
+    
+    const pageChange = (e,value)=>{
+      setPageNumber(value)
+      lastIndex = value*cityPerPage;
+      firstIndex = lastIndex - cityPerPage;
+      dispatch(cityPagination({"start":firstIndex,"end":lastIndex}))
     }
 
     const handleSubmit = (e)=>{
@@ -83,6 +105,8 @@ export const Display = ()=>{
         dispatch(deleteCity(payload['id']))
     }
 
+
+
     return loading?(
         <h1>Loading the Data....</h1>
       ):error?(
@@ -93,7 +117,7 @@ export const Display = ()=>{
             <Grid item xs={12} sm={6}>
                 <TextField
                     required
-                    label="Search by City"
+                    label="Search by Country"
                     sx={{ mt: 1, ml: 1 }}
                     type="text"
                     onKeyPress={handleSearch}
@@ -137,7 +161,7 @@ export const Display = ()=>{
               </TableRow>
             </TableHead>
             <TableBody>
-              {cities.map((row,id) => (
+              {pageCities.map((row,id) => (
                 <TableRow
                   key={uuidv4()}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -171,9 +195,15 @@ export const Display = ()=>{
                     </TableCell>
                 </TableRow>
               ))}
+              
             </TableBody>
           </Table>
         </TableContainer>
+        <Stack spacing={2}>
+          <Pagination 
+          onChange={pageChange}
+          count={Math.ceil([...cities].length/cityPerPage)} />
+        </Stack>
 
         <Dialog
             open={open}

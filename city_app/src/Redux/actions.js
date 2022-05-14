@@ -5,7 +5,8 @@ import { GET_CITY,
     DELETE_CITY_LOADING,
     DELETE_CITY_ERROR,
     COUNTRIES_LOADING,
-    COUNTRIES_ERROR
+    COUNTRIES_ERROR,
+    PAGE_CITY
 } from "./action_names";
 
 import axios from "axios";
@@ -21,6 +22,13 @@ export const getCountry = (payload)=>{
 export const getCity = (payload)=>{
     return {
         type:GET_CITY,
+        payload
+    }
+}
+
+export const pageCity = (payload)=>{
+    return {
+        type:PAGE_CITY,
         payload
     }
 }
@@ -94,9 +102,27 @@ export const getCities = () => async (dispatch) =>{
         dispatch(cityLoading())
         const { data } = await axios.get("https://city-population-app.herokuapp.com/api/cities");
         dispatch(getCity(data))
+        dispatch(cityPagination())
     }
     catch(err){
         dispatch(cityError())
+    }
+}
+
+export const cityPagination = (payload) => async (dispatch) =>{
+    try{
+        let data;
+        if(payload)
+        {
+            data = await axios.get(`https://city-population-app.herokuapp.com/api/cities?_start=${payload['start']}&_end=${payload['end']}`)
+        }
+        else{
+            data = await axios.get("https://city-population-app.herokuapp.com/api/cities?_start=0&_end=2")
+        }
+        dispatch(pageCity(data.data))
+    }
+    catch(err){
+        console.log(err)
     }
 }
 
@@ -114,6 +140,7 @@ export const filterCity = (payload) => async (dispatch) => {
     try{
         const { data } = await axios.get(`https://city-population-app.herokuapp.com/api/cities?country=${payload}`);
         dispatch(getCity(data))
+        dispatch(pageCity(data))
     }
     catch(err){
         console.log(err)
@@ -135,6 +162,7 @@ export const sortCities = (payload) => async (dispatch) => {
             })
         }
         dispatch(getCity(data))
+        dispatch(pageCity(data))
     }
     catch(err){
         console.log(err)

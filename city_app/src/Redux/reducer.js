@@ -3,6 +3,7 @@ import {
     GET_CITY_LOADING,
     GET_COUNTRY,
     GET_CITY_ERROR,
+    PAGE_CITY,
     DELETE_CITY_ERROR,
     DELETE_CITY_LOADING,
     COUNTRIES_LOADING,
@@ -13,6 +14,7 @@ from "./action_names";
 const initState = {
     countries:[],
     cities:[],
+    pageCities:[],
     loading:false,
     error:false,
     deleteLoading:{
@@ -41,7 +43,11 @@ export const reducer = (state=initState,{type,payload})=>{
                     id:""
                 }
             }
-        
+        case PAGE_CITY:
+            return {
+                ...state,
+                pageCities:payload,
+            }
         case GET_COUNTRY:
             return {
                 ...state,
